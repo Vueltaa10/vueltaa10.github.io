@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario de Eventos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            background-color: #810094;
+        }
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            text-align: center;
+            width: 300px;
+        }
+        .calendar-header {
+            font-weight: bold;
+            background-color: #000000;
+            color: #810094;
+            padding: 10px;
+        }
+        .calendar-day {
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            min-height: 50px;
+        }
+        .calendar-day:hover {
+            background-color: #f0f0f0;
+        }
+        .current-day {
+            background-color: #ffffff;
+            color: black;
+            font-weight: bold;
+        }
+        .event {
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 3px;
+            font-size: 12px;
+            margin: 2px 0;
+        }
+        .exam-event {
+            background-color: #ff5733; /* Color para exámenes */
+        }
+        .work-event {
+            background-color: #33c1ff; /* Color para trabajos */
+        }
+        .excursion-event {
+            background-color: #33ff57; /* Color para excursiones */
+        }
+        .birthday-event {
+            background-color: #ffeb3b; /* Color para cumpleaños (amarillo) */
+            color: #000000; /* Texto en negro para destacar sobre el fondo amarillo */
+        }
+        .holiday-event {
+            background-color: #4caf50; /* Color para festivos (verde claro) */
+            color: #ffffff; /* Texto en blanco */
+        }
+        .delete-btn {
+            background-color: #000000;
+            color: #000000;
+            border: none;
+            padding: 2px 5px;
+            cursor: pointer;
+            font-size: 10px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
+        .add-event-btn {
+            background-color: #000000;
+            color: #810094;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+        }
+        .event-form {
+            margin: 10px 0;
+            display: none;
+            text-align: left;
+        }
+        .event-form input, .event-form textarea, .event-form select {
+            width: 100%;
+            margin: 5px 0;
+        }
+        button {
+            background-color: #000000;
+            color: #810094;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <h2 id="month-title">Calendario - Noviembre 2024</h2>
+
+    <div>
+        <button onclick="changeMonth(-1)">Mes Anterior</button>
+        <button onclick="changeMonth(1)">Mes Siguiente</button>
+    </div>
+
+    <div id="calendar" class="calendar"></div>
+
+    <div id="event-form" class="event-form">
+        <h3>Agregar Evento</h3>
+        <input type="date" id="event-date">
+        <textarea id="event-description" placeholder="Descripción del evento"></textarea>
+        <select id="event-type">
+            <option value="examen">Examen</option>
+            <option value="trabajo">Trabajo</option>
+            <option value="excursion">Excursión</option>
+            <option value="cumpleaños">Cumpleaños</option> <!-- Opción de cumpleaños -->
+            <option value="festivo">Festivo</option> <!-- Opción de festivo -->
+        </select>
+        <button class="add-event-btn" onclick="addEvent()">Agregar Evento</button>
+    </div>
+</div>
+
+<script>
+    const daysOfWeek = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+    let currentMonth = new Date().getMonth();
+    let currentYear = new Date().getFullYear();
+    let events = JSON.parse(localStorage.getItem("events")) || [];
+
+    function generateCalendar() {
+        const calendar = document.getElementById("calendar");
+        const monthTitle = document.getElementById("month-title");
+
+        const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+        const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
+        const firstDay = firstDayOfMonth.getDay();
+        const totalDaysInMonth = lastDayOfMonth.getDate();
+
+        const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        monthTitle.innerText = `Calendario - ${monthNames[currentMonth]} ${currentYear}`;
+
+        calendar.innerHTML = '';
+
+        daysOfWeek.forEach(day => {
+            const headerDay = document.createElement('div');
+            headerDay.classList.add('calendar-header');
+            headerDay.innerText = day;
+            calendar.appendChild(headerDay);
+        });
+
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDiv = document.createElement('div');
+            calendar.appendChild(emptyDiv);
+        }
+
+        for (let day = 1; day <= totalDaysInMonth; day++) {
+            const dayDiv = document.createElement('div');
+            dayDiv.classList.add('calendar-day');
+            
+            const today = new Date();
+            if (today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear) {
+                dayDiv.classList.add('current-day');
+            }
+
+            dayDiv.innerText = day;
+
+            const dayEvents = events.filter(event => new Date(event.date).getDate() === day && new Date(event.date).getMonth() === currentMonth);
+            dayEvents.forEach(event => {
+                const eventDiv = document.createElement('div');
+                eventDiv.classList.add('event');
+                
+                // Agregar la clase según el tipo de evento
+                if (event.type === 'examen') {
+                    eventDiv.classList.add('exam-event');
+                } else if (event.type === 'trabajo') {
+                    eventDiv.classList.add('work-event');
+                } else if (event.type === 'excursion') {
+                    eventDiv.classList.add('excursion-event');
+                } else if (event.type === 'cumpleaños') {
+                    eventDiv.classList.add('birthday-event'); // Clase para cumpleaños
+                } else if (event.type === 'festivo') {
+                    eventDiv.classList.add('holiday-event'); // Clase para festivos
+                }
+
+                eventDiv.innerText = event.description;
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.classList.add('delete-btn');
+                deleteBtn.innerText = 'Eliminar';
+                deleteBtn.onclick = function (e) {
+                    e.stopPropagation();
+                    deleteEvent(event);
+                };
+
+                eventDiv.appendChild(deleteBtn);
+                dayDiv.appendChild(eventDiv);
+            });
+
+            dayDiv.addEventListener('click', () => showEventForm(day));
+            calendar.appendChild(dayDiv);
+        }
+    }
+
+    function deleteEvent(eventToDelete) {
+        events = events.filter(event => event !== eventToDelete);
+        localStorage.setItem("events", JSON.stringify(events));  
+        generateCalendar();  
+    }
+
+    function changeMonth(offset) {
+        currentMonth += offset;
+        if (currentMonth > 11) {
+            currentMonth = 0;
+            currentYear++;
+        }
+        if (currentMonth < 0) {
+            currentMonth = 11;
+            currentYear--;
+        }
+        generateCalendar();
+    }
+
+    function showEventForm(day) {
+        const eventForm = document.getElementById("event-form");
+        eventForm.style.display = 'block';
+        document.getElementById("event-date").value = `${currentYear}-${currentMonth + 1 < 10 ? '0' : ''}${currentMonth + 1}-${day < 10 ? '0' : ''}${day}`;
+    }
+
+    function addEvent() {
+        const date = document.getElementById("event-date").value;
+        const description = document.getElementById("event-description").value;
+        const type = document.getElementById("event-type").value;
+
+        if (date && description) {
+            const newEvent = { date, description, type };
+            events.push(newEvent);
+            localStorage.setItem("events", JSON.stringify(events));  
+            generateCalendar();
+            document.getElementById("event-form").reset();
+            document.getElementById("event-form").style.display = 'none';
+        } else {
+            alert("Por favor, ingresa todos los datos.");
+        }
+    }
+
+    generateCalendar();
+</script>
+
+</body>
+</html>
+
