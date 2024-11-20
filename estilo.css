@@ -1,0 +1,48 @@
+
+body{
+background-color: rgb(107, 208, 255);
+
+margin-right:5%;
+margin-left:5%;
+
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.gif-container {
+    display: flex;
+    float: center;
+    text-align: center;
+    margin: 20px 0; 
+}
+
+h1 {
+border: 5px solid rgb(22, 22, 23);
+height: 10vh;
+margin: 0 auto;
+padding: 5%;
+background-color: rgb(255, 255, 255);
+text-align: center;
+}
+
+h2 {
+float: right;
+}
+
+div {
+text-align:center
+}
+
+div id {
+float: center;
+}
+
+#columnas{
+    text-align: justify;
+    color: rgb(0, 0, 0);
+    display: grid;
+    grid-template-columns:2fr 2fr 1fr;
+  }
+
+
