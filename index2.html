@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog T.I.C. 2º BACH</title>
+    <link type="text/css" rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0; /* Quitamos el margen del body para controlarlo en el contenedor */
+            padding: 0;
+        }
+
+        .contenedor-global {
+            margin-left: 8%;  /* Margen de 8% a la izquierda */
+            margin-right: 8%; /* Margen de 8% a la derecha */
+        }
+
+        header {
+            text-align: center;
+        }
+
+        header img {
+            width: 100%;
+            max-width: 500px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        header h1 {
+            margin-top: 10px; /* Separa un poco el título de la imagen */
+        }
+
+        /* Estilos para las tres columnas */
+        .contenedor {
+            display: flex;
+            flex-direction: column; /* Las columnas se apilan en una sola columna */
+            gap: 20px; /* Espacio entre las columnas */
+            margin-top: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .columna {
+            width: 100%; /* Hacemos que las columnas ocupen el 100% del ancho disponible */
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px; /* Añadido margen inferior */
+        }
+
+        /* Centrar el título de las columnas */
+        .columna h2 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+        }
+
+        /* Justificar el texto de las columnas */
+        .columna p {
+            text-align: justify;
+        }
+
+        /* Estilo para los enlaces */
+        .columna a {
+            display: block;
+            text-align: center;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 20px; /* Aumentado espacio entre los enlaces */
+        }
+
+        .columna a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilo del iframe del mapa */
+        .mapa iframe {
+            width: 100%;
+            max-width: 100%; /* Ocupa todo el ancho disponible */
+            height: 250px;
+            border: 0;
+        }
+
+        /* Estilo general para los botones */
+        .botones {
+            text-align: center; /* Centrar los botones */
+            margin-top: 20px; /* Espacio encima de los botones */
+        }
+
+        .botones button {
+            display: inline-block; /* Los botones se alinean horizontalmente */
+            margin-bottom: 15px; /* Espacio entre los botones */
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            width: 150px; /* Ancho de los botones */
+            cursor: pointer;
+        }
+
+        .botones button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenedor-global">
+        <header>
+            <!-- Imagen de cabecera movida aquí -->
+            <img src="imagenes/sanchez1.png" alt="Imagen de cabecera">
+            <h1> Blog T.I.C. 2º BACH </h1>
+            <h2>Fecha y hora:
+                <span id="datetime"></span>
+                <script>
+                    function updateDateTime() {
+                        const now = new Date();
+                        const currentDateTime = now.toLocaleString();
+                        document.querySelector('#datetime').textContent = currentDateTime;
+                    }
+                    setInterval(updateDateTime, 1000);
+                </script>
+            </h2>
+        </header>
+
+        <!-- Las tres columnas debajo de Fecha y Hora -->
+        <form>
+            <div class="contenedor">
+                <!-- Columna 1 (Breve historia del centro) -->
+                <div class="columna">
+                    <h2>BREVE HISTORIA DEL CENTRO</h2>
+                    <p>La historia de este edificio se remonta a 1928 cuando comienza a elaborarse su proyecto de construcción “con destino a la Escuela Normal de León… en terrenos cedidos por el Ayuntamiento y la Diputación”. Pero no es hasta octubre de 1931 cuando comienzan las obras, terminándose éstas en diciembre de 1934.
+                        Tras haberse equipado completamente estalla la guerra en 1936 y el edificio es destinado a otros usos, siendo ocupado por el Grupo de Cazas de la Legión Cóndor. Una vez que la Legión Cóndor abandonó el edificio se cede éste, con muebles y utensilios, a la Delegación de Frentes y Hospitales para instalar un hospital de guerra.
+                        En marzo de 1940 la Normal consigue que se le devuelva el piso de arriba de la escuela y que la Diputación pague los gastos de desinfección. En diciembre de 1942 se recupera otra planta del edificio y ese mismo año se instala en él una escuela de capataces de minas, conviviendo entonces los estudiantes de magisterio con los de minas, con el hospital y con el Frente de Juventudes. Finalmente, en 1954, se desocupa el edificio pasando su uso exclusivo a la Escuela Normal. Y así habría de serlo hasta 1989, en que la Escuela Normal se traslada a una nueva ubicación en el Campus Universitario.
+                        A partir de este año -1989- se crea por desdoble del Politécnico de León, el Instituto de Formación Profesional Número 2, adquiriendo rápidamente la configuración como Instituto de Educación Secundaria, que pasa a denominarse, por decisión del centro, Claudio Sánchez Albornoz, nombrado hijo adoptivo de León, por sus aportaciones al conocimiento de la historia del Reino de León.
+                    </p>
+                </div>
+
+                <!-- Columna 2 (Información del centro y mapa) -->
+                <div class="columna">
+                    <h2>INFORMACIÓN DEL CENTRO</h2>
+                    <p> Nuestro instituto está situado en el centro de León, en la confluencia de la Avda. Mariano Andrés y la Avda. de Asturias, en el edificio de la antigua Escuela de Magisterio.
+                        Avda. Mariano Andrés, 1 - 24008 - LEÓN
+                        Tel.: 987 876146           e-mail: 24017734@educa.jcyl.es
+                        Está ubicado en la zona educativa norte de León y tiene adscritos los Colegios Públicos del ayuntamiento de Villaquilambre: CRA de Villaquilambre y CEIP Villa Romana de Navatejera, así como otros centros de la ciudad tales como el CEIP San Isidoro, el CEIP Anejas, el CEIP Camino Norte y el CEIP Antonio Valbuena.
+                        El instituto tiene 5 rutas de autobús escolar para los alumnos del municipio de Villaquilambre.
+                        Además está al lado de 4 paradas de autobús urbano y paradas de algunas rutas interurbanas.
+                    </p>
+
+                    <!-- Mapa en la columna de Información -->
+                    <div class="mapa">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2936.692803703383!2d-5.5767708251238854!3d42.60426081964048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd379a8f12a7cff9%3A0xcf14c8a725e8691e!2sIES%20Claudio%20S%C3%A1nchez%20Albornoz!5e0!3m2!1ses!2ses!4v1727693349611!5m2!1ses!2ses" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+
+                <!-- Columna 3 (Web del Instituto y enlaces) -->
+                <div class="columna">
+                    <h2>HIPERENLACES</h2>
+                    <p>
+                        <a href="http://iesclaudiosanchezalbornoz.centros.educa.jcyl.es/sitio/" target="_blank">WEB DEL INSTITUTO</a>
+                        <a href="https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=5e3ce6c0-2b1f-4285-8d4b-75ee78787346&scope=openId%20profile%20openid%20offline_access&redirect_uri=https%3A%2F%2Fteams.microsoft.com%2Fv2&client-request-id=01932a9b-70b2-7884-b745-906794db6773&state=c9d9ca4e-b408-49b7-9989-5edee7060b0c" target="_blank">ENTRAR EN TEAMS</a>
+                        <a href="https://www.google.es/" target="_blank">ACCESO A GOOGLE</a>
+                        <a href="indexcandelario.html"> CALENDARIO</a>
+                    </p>
+                </div>
+            </div>
+        </form>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
